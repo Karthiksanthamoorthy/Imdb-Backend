@@ -9,7 +9,7 @@ const app = express();
 
 const PORT = process.env.PORT;
 
-//Connection
+//Connections
 
 //const MONGO_URL = "mongodb://127.0.0.1";
 const MONGO_URL = process.env.MONGO_URL;
