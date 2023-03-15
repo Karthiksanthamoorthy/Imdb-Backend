@@ -2,17 +2,21 @@
 import express from "express"; //"type": "module"
 import { MongoClient } from "mongodb";
 import * as dotenv from 'dotenv';
+import moviesRouter from './routes/movies.route.js'
+ import userRouter from './routes/users.route.js';
+ import cors from 'cors';
+
 dotenv.config();
 
-console.log(process.env.MONGO_URL);
+//console.log(process.env.MONGO_URL);
 const app = express();
 
 const PORT = process.env.PORT;
 
 //Connections
 
-//const MONGO_URL = "mongodb://127.0.0.1";
-const MONGO_URL = process.env.MONGO_URL;
+const MONGO_URL = "mongodb://127.0.0.1";
+//const MONGO_URL = process.env.MONGO_URL;
 const client = new MongoClient(MONGO_URL); // dail
 //top-level await
 await client.connect(); // call
@@ -113,40 +117,21 @@ const movies =[
     ]
 //middleware-express.json()
 app.use(express.json());
+//app.use(cors());
+
 
 app.get("/", function (request, response) {
     response.send("Completed");
 });
 
-app.get("/movies",async function (request, response) {
-    if (request.query.rating) {
-        request.query.rating = +request.query.rating;
-    }
-    
-    console.log(request.query);
-    //Cursor - Pagination | Cursor -> Array | toArray()
-    const movies = await client
-    .db("bd40wd")
-    .collection("movies")
-        .find(request.query)
-        .toArray();
-    
-    //console.log(movies);
+app.get("/movies", function (request, response) {
     response.send(movies);
 });
 
-// app.get("/movies/:id", function (request, response) {
-//     const { id } = request.params;
-//     console.log(request.params, id);
-//     const movie = movies.find((mv) => mv.id == id)
-//     console.log(movie);
-//     movie ? response.send(movie): response.status(404).send({ message: "movie not found"});
-// });
 
-// app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
-
-app.get("/movies/:id",async function (request, response) {
+app.get("/movies/:id", async function (request, response) {
     const { id } = request.params;
+
     const movie = await client
         .db("bd40wd")
         .collection("movies")
@@ -158,19 +143,19 @@ app.get("/movies/:id",async function (request, response) {
 });
 
 
-app.post("/movies",  async function (request, response) {
+app.post("/movies", express.json(), async function (request, response) {
     const data = request.body;
     console.log(data);
     const results = await client
-    .db("bd40wd")
-    .collection("movies")
-    .insertMany(data);
+     .db("bd40wd")
+     .collection("movies")
+     .insertMany(data);
 
     response.send(results);
 });
 
 
-//Update movie
+// //Update movie
 app.put("/movies/:id",async function (request, response) {
     const { id } = request.params;
     const data = request.body;
@@ -184,7 +169,7 @@ app.put("/movies/:id",async function (request, response) {
 
 
 
-//delete movie
+// //delete movie
 app.delete("/movies/:id",async function (request, response) {
     const { id } = request.params;
     const results = await client
@@ -198,4 +183,8 @@ app.delete("/movies/:id",async function (request, response) {
 });
 
 
+
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
+
+
+export {client};
