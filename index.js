@@ -184,7 +184,7 @@ app.delete("/movies/:id",async function (request, response) {
 
 
 
-app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
+app.listen(PORT, () => console.log(`The server started in: ${PORT} 🙋‍♂️, 🌏 🎊✨🤩 heelo world`));
 
 
 export {client};
