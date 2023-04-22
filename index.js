@@ -15,8 +15,8 @@ const PORT = process.env.PORT;
 
 //Connections
 
-const MONGO_URL = "mongodb://127.0.0.1";
-//const MONGO_URL = process.env.MONGO_URL;
+//const MONGO_URL = "mongodb://127.0.0.1";
+const MONGO_URL = process.env.MONGO_URL;
 const client = new MongoClient(MONGO_URL); // dail
 //top-level await
 await client.connect(); // call
