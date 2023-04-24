@@ -20,7 +20,7 @@ const MONGO_URL = process.env.MONGO_URL;
 const client = new MongoClient(MONGO_URL); // dail
 //top-level await
 await client.connect(); // call
-console.log("Mongo is connected !!!");
+console.log("Mongo is connected !!!!");
 
 
 const movies =[
