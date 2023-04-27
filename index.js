@@ -3,8 +3,8 @@ import express from "express"; // "type": "module"
 import { MongoClient } from "mongodb";
 import * as dotenv from "dotenv";
 import moviesRouter from "./routes/movies.route.js";
-import usersRouter from "./routes/users.route.js";
 import cors from "cors";
+import authRoute from "./routes/auth.js";
 
 dotenv.config()
 const app = express();
@@ -27,8 +27,8 @@ app.get("/", function (request, response) {
     response.send(`Hello World !!!`);
 });
 
-app.use("/movies", moviesRouter)
-app.use("/users", usersRouter)
+app.use("/movies", moviesRouter);
+app.use("/api/auth", authRoute);;
 
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
 
